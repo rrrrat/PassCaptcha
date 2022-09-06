@@ -88,7 +88,7 @@ class TX:
         time.sleep(1)
         pass_code = {"randstr": browser.find_element_by_id("randstr").text,
                      "ticket": browser.find_element_by_id("ticket").text}
-        # browser.close()
+        browser.close()
         return pass_code
 
     @classmethod
