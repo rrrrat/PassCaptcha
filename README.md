@@ -21,12 +21,12 @@ pip3 install -r requirements.txt
 ```python
 from PassCaptcha import AllPassCaptcha 
 
-# 1.注入方式通过腾讯点选验证码
+# 1.注入方式通过验证
 # browser为你的webdriver.Chrome对象, 函数将返回你的浏览器对象
 browser = AllPassCaptcha.TX().click_captcha_injection(browser)
 # return <object browser>
 
-# 2.callback方式通过验证码
+# 2.callback方式通过验证
 # 此处captcha_app_id为对方网站腾讯验证码的APPID(访问网站查看网络内https://t.captcha.qq.com/cap_union_prehandle的aid值)下面会详细说明
 randstr, ticket = AllPassCaptcha.TX().click_captcha_callback(captcha_app_id)
 # return randstr, ticket
