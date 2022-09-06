@@ -1,5 +1,6 @@
 # PassCaptcha
 ## 推荐使用导入包的形式调用此项目
+## 使用DDDDOCR识别文字坐标(这玩意真牛逼)
 ```angular2html
 支持注入方式及返回callback方式通过验证码
 当前仅支持腾讯点选验证
