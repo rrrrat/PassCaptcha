@@ -76,7 +76,7 @@ class TX:
         :param captcha_app_id: 网站验证码ID(可通过查看数据获取)
         :return: randstr, ticket
         """
-        with open(current_path + "/../html/tx_click_captcha.html", 'r', encoding='utf-8') as fp:
+        with open(current_path + "/../template/tx_click_captcha.html", 'r', encoding='utf-8') as fp:
             html = str(fp.read()).replace('#CaptchaAppId#', str(captcha_app_id))
 
         with open(current_path + "/../temp/tx_click_captcha.html", 'w', encoding='utf-8') as f:
@@ -86,10 +86,14 @@ class TX:
         browser.get("file://" + current_path + "/../temp/tx_click_captcha.html")
         browser = click_captcha(browser)
         time.sleep(1)
-        pass_code = {"randstr": browser.find_element_by_id("randstr").text,
-                     "ticket": browser.find_element_by_id("ticket").text}
-        browser.close()
-        return pass_code
+        try:
+            pass_code = {"randstr": browser.find_element_by_id("randstr").text,
+                         "ticket": browser.find_element_by_id("ticket").text}
+            browser.close()
+            return pass_code
+        except:
+            return '验证失败!'
+
 
     @classmethod
     def click_captcha_injection(cls, browser):
@@ -98,5 +102,4 @@ class TX:
         :param browser: 浏览器对象
         :return: 浏览器对象
         """
-        click_captcha(browser)
-        return browser
+        return click_captcha(browser)

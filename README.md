@@ -3,7 +3,7 @@
 ## 使用DDDDOCR识别文字坐标(这玩意真牛逼)
 ```angular2html
 支持注入方式及返回callback方式通过验证码
-当前仅支持腾讯点选验证
+当前支持腾讯点选验证, 阿里滑块验证
 ```
 ## 部署
 ### 0x01 准备 | 难度 1-5
@@ -25,11 +25,15 @@ from PassCaptcha import AllPassCaptcha
 # 1.注入方式通过验证
 # browser为你的webdriver.Chrome对象, 函数将返回你的浏览器对象
 browser = AllPassCaptcha.TX().click_captcha_injection(browser)
+browser = AllPassCaptcha.ALI().slide_captcha_callback(browser)
 # return <object browser>
 
 # 2.callback方式通过验证
 # 此处captcha_app_id为对方网站腾讯验证码的APPID(访问网站查看网络内https://t.captcha.qq.com/cap_union_prehandle的aid值)下面会详细说明
 randstr, ticket = AllPassCaptcha.TX().click_captcha_callback(captcha_app_id)
+# 此处captcha_app_id, captcha_scene为对方网站阿里滑块验证的captcha_app_id和captcha_scene(访问网站查看网络内https://cf.aliyun.com/nocaptcha/initialize.jsonp的a和scene值)
+# 与腾讯查看方式一样
+session_id, sig, token = AllPassCaptcha.ALI().slide_captcha_callback(captcha_app_id, captcha_scene)
 # return randstr, ticket
 ```
 
@@ -60,9 +64,15 @@ aid: 191805058
 
 ![](temp/err_2.jpg)
 
+## 更新
+| 版本号   | 更新时间       | 更新内容          |
+|-------|------------|---------------|
+| 0.0.1 | 2022.09.07 | 项目创建，初始支持腾讯点选 |
+| 0.0.2 | 2022.09.08 | 新增阿里滑块验证      |
+
 ## 关于后期更新
 ```angular2html
-加入ALI验证相关规则。
+当前阿里滑块使用一镜到底方式，后期将优化此步骤，提高验证成功率。
 当前无优化思路，欢迎大家给出意见。
 ```
 
