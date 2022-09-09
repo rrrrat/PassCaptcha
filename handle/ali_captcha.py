@@ -3,8 +3,15 @@ import random
 import time
 import os
 from selenium import webdriver
+if os.path.dirname(__file__) != (os.getcwd() + "\\handle"):
+    from ..handle import selenium_options
+else:
+    from handle import selenium_options
 
 current_path = os.path.dirname(__file__)
+
+with open(current_path + "/../template/stealth.min.js", 'r') as f:
+    stealth = f.read()
 
 
 def slide_captcha(browser):
@@ -19,16 +26,7 @@ def slide_captcha(browser):
 
 class ALI:
     def __init__(self, headless=True):
-        self.options = webdriver.ChromeOptions()
-        self.options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        self.options.add_experimental_option('useAutomationExtension', False)
-        self.options.add_argument(
-            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36")
-        with open(current_path + "/../template/stealth.min.js", 'r') as f:
-            self.stealth = f.read()
-        if headless:
-            self.options.add_argument("--headless")
+        self.options = selenium_options.gen_options(headless)
 
     def slide_captcha_callback(self, captcha_app_id, captcha_scene):
         with open(current_path + "/../template/ali_slide_captcha.html", 'r', encoding='utf-8') as fp:
@@ -39,7 +37,7 @@ class ALI:
             f.write(html)
 
         browser = webdriver.Chrome(options=self.options)
-        browser.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {'source': self.stealth})
+        browser.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {'source': stealth})
         browser.get("file://" + current_path + "/../temp/ali_slide_captcha.html")
         browser = slide_captcha(browser)
         time.sleep(1)
@@ -55,4 +53,5 @@ class ALI:
 
     @classmethod
     def slide_captcha_injection(cls, browser):
+        browser.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {'source': stealth})
         return slide_captcha(browser)
