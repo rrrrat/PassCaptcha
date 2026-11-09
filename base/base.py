@@ -22,7 +22,7 @@ class Base:
 
     @staticmethod
     def get_stealth_js():
-        with open(os.path.dirname(__file__) + "/../template/stealth.min.js", 'r') as f:
+        with open(os.path.dirname(__file__) + "/../template/stealth.min.js", 'r', encoding='utf-8') as f:
             stealth_js = f.read()
         return stealth_js
 
